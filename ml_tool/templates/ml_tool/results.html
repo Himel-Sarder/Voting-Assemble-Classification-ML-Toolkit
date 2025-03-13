@@ -1,0 +1,104 @@
+{% extends 'ml_tool/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">Voting Ensemble Results</h1>
+
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% else %}
+        <div class="card mb-4 shadow-lg">
+            <div class="card-body">
+                {% if model_accuracies %}
+                    <h3 class="card-title text-center mb-4" style="color: #333; font-weight: 600;">Model Accuracies</h3>
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" style="background: linear-gradient(135deg, #667eea, #764ba2); color: #fff;">Model</th>
+                                <th scope="col" style="background: linear-gradient(135deg, #667eea, #764ba2); color: #fff;">Accuracy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for model, accuracy in model_accuracies.items %}
+                                <tr>
+                                    <td>{{ model }}</td>
+                                    <td>{{ accuracy|floatformat:2 }}%</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h3 class="card-title text-center mb-4 text-danger">No Models Selected!</h3>
+                {% endif %}
+
+                <h4 class="mt-4 text-center" style="color: #333; font-weight: 600;">
+                    Voting Ensemble Accuracy:
+                    {% if voting_accuracy is not None %}
+                        <strong style="color: #764ba2;">{{ voting_accuracy|floatformat:2 }}%</strong>
+                    {% else %}
+                        <strong style="color: #e53e3e;">Not Available</strong>
+                    {% endif %}
+                </h4>
+
+                <div class="text-center mt-4">
+                    <a href="{% url 'select_models' %}" class="btn btn-primary">Back to Selection</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table thead th {
+        border: none;
+    }
+
+    .table tbody tr {
+        transition: background-color 0.3s ease;
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(102, 126, 234, 0.1);
+    }
+
+    .alert {
+        border-radius: 10px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border: none;
+        padding: 0.5rem 2rem;
+        font-weight: 500;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+</style>
+{% endblock %}
