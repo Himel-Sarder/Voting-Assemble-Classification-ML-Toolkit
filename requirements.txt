@@ -201,7 +201,7 @@ websocket-client==1.8.0
 Werkzeug==3.0.3
 
 # Install pywin32 only on Windows
-pywin32==306; platform_system == "Window
+pywin32==306; platform_system == "Windows"
 wget==3.2
 whichcraft==0.6.1
 widgetsnbextension==4.0.11
